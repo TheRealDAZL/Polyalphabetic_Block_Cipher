@@ -24,8 +24,6 @@ namespace Cipher
                 }
 
                 CharacterLibrary = library;
-
-                return library;
             }
 
             return CharacterLibrary;
@@ -54,12 +52,7 @@ namespace Cipher
             {
                 for (int i = inputLength; i < CharacterLibrary.Length; i++)
                 {
-                    if (type == "Message")
-                    {
-                        input += CharacterLibrary[RandomNumberGenerator.GetInt32(CharacterLibrary.Length)];
-                    }
-
-                    else if (type != "Message" && inputLength != 0)
+                    if (type != "Message" && inputLength != 0)
                     {
                         input += input[i % inputLength];
                     }
@@ -103,6 +96,7 @@ namespace Cipher
             for (int i = start; i != end; i += step)
             {
                 int swapIndex = (i + CharacterLibrary.IndexOf(key[i])) % CharacterLibrary.Length;
+
                 (charArray[i], charArray[swapIndex]) = (charArray[swapIndex], charArray[i]);
             }
 

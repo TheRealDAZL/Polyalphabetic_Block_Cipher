@@ -29,7 +29,7 @@ namespace Cipher
             while (!SetInput("Transposition Key"));
             Console.WriteLine($"Here is your transposition key:\n{TranspositionKey}\n");
 
-            while (!SetEncodeOrDecode());
+            while (!SetEncode());
             string value = Encode ? "encode" : "decode";
             Console.WriteLine($"You have chosen to {value} your message.\n");
         }
@@ -37,7 +37,10 @@ namespace Cipher
 
         private bool SetLibrary()
         {
-            Console.WriteLine("Enter your character library as a string, then press enter:");
+            const string defaultLibrary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .";
+
+            Console.WriteLine($"Enter your character library as a string, then press enter. If you do not enter any character, the default library will be used. " +
+                $"Here is the default library:\n{defaultLibrary}");
             string library = Console.ReadLine();
 
             try
@@ -57,7 +60,7 @@ namespace Cipher
 
                 else
                 {
-                    CharacterLibrary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .";
+                    CharacterLibrary = defaultLibrary;
                 }
 
                 return true;
@@ -73,25 +76,22 @@ namespace Cipher
 
         private bool SetInput(string type)
         {
-            string input;
-
             if (type == "Message")
             {
                 Console.WriteLine("Enter your message, then press enter:");
-                input = Console.ReadLine();
             }
 
             else if (type == "Substitution Key")
             {
                 Console.WriteLine("Enter your substitution key, then press enter:");
-                input = Console.ReadLine();
             }
 
             else
             {
                 Console.WriteLine("Enter your transposition key, then press enter:");
-                input = Console.ReadLine();
             }
+
+            string input = Console.ReadLine();
 
             try
             {
@@ -123,7 +123,8 @@ namespace Cipher
 
                         else
                         {
-                            input += CharacterLibrary[RandomNumberGenerator.GetInt32(CharacterLibrary.Length)];
+                            int index = RandomNumberGenerator.GetInt32(CharacterLibrary.Length);
+                            input += CharacterLibrary[index];
                         }
                     }
                 }
@@ -154,7 +155,7 @@ namespace Cipher
             }
         }
 
-        private bool SetEncodeOrDecode()
+        private bool SetEncode()
         {
             Console.WriteLine("Enter your choice, then press enter. The value 1 is for encoding, and the value 2 is for decoding:");
             string choice = Console.ReadLine();
@@ -178,7 +179,7 @@ namespace Cipher
             return false;
         }
 
-        public void GetEncodedOrDecodedMessage()
+        public void GetOutput()
         {
             Console.WriteLine("Here is the processed message:");
             string encodedMessage = Cipher.EncodeDecode(CharacterLibrary, Message, SubstitutionKey, TranspositionKey, Encode);

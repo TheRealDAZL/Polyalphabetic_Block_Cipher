@@ -17,7 +17,7 @@ namespace Cipher
             {
                 int msgIndex = library.IndexOf(message[i]);
                 int keyIndex = library.IndexOf(key[i]);
-                int sign = encode ? 1 : -1;
+                int sign = (encode ? 1 : -1);
 
                 int newIndex = (msgIndex + sign * keyIndex + library.Length) % library.Length;
 
@@ -31,9 +31,9 @@ namespace Cipher
         {
             var charArray = message.ToCharArray();
 
-            int start = encode ? 0 : message.Length - 1;
-            int end = encode ? message.Length : -1;
-            int step = encode ? 1 : -1;
+            int start = (encode ? 0 : message.Length - 1);
+            int end = (encode ? message.Length : -1);
+            int step = (encode ? 1 : -1);
 
             for (int i = start; i != end; i += step)
             {
